@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}All Task List{% endblock title %}
+
+{% block css_files %}{% endblock css_files %}
+
+{% block content %}
+
+    {% if request.user.is_authenticated %}
+        {{ request.user }}
+        <a href="{% url 'logout' %}">Logout</a>    
+    {% else %}
+        <a href="{% url 'login' %}">Login</a>
+    {% endif %}
+
+    <hr>
+
+    <a href="{% url 'task-create' %}">Add new task</a>
+
+    <table>
+        <tr>
+            <th>Title</th>
+            <th></th>
+            <th></th>
+        </tr>
+
+        {% for task in tasks %}
+        <tr>
+            <td>{{ task.title }}</td>
+            <td><a href="{% url 'task-detail' task.slug %}">View</a></td>
+            <td><a href="{% url 'task-update' task.slug %}">Edit</a></td>
+            <td><a href="{% url 'task-delete' task.slug %}">Delete</a></td>
+        </tr>
+        {% empty %}
+
+        <h2>No items!</h2>
+
+        {% endfor %}
+    </table>
+
+
+{% endblock content %}
